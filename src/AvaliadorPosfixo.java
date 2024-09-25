@@ -1,15 +1,33 @@
-
 public class AvaliadorPosfixo {
-	public int avaliar(String expressaoPosfixa) {
+    private Pilha pilhaVariaveis;
+
+    public AvaliadorPosfixo() {
+        this.pilhaVariaveis = new Pilha();
+    }
+
+    public void atribuir(String variavel, int valor) {
+        pilhaVariaveis.push(variavel, valor);
+    }
+
+    public int avaliar(String expressaoPosfixa) {
         Pilha p = new Pilha(expressaoPosfixa.length());
-        
+
         // Percorre cada caractere da expressão pós-fixa
         for (int i = 0; i < expressaoPosfixa.length(); i++) {
             char simbolo = expressaoPosfixa.charAt(i);
-            
+
             // Se é um dígito, empilha (convertemos o char em int)
             if (Character.isDigit(simbolo)) {
                 p.push(Character.getNumericValue(simbolo)); // Converte char para int
+            } else if (Character.isLetter(simbolo)) {
+                // Se é uma letra, busca seu valor na pilha de variáveis
+                Integer valor = (Integer) pilhaVariaveis.popValue(String.valueOf(simbolo));
+                if (valor != null) {
+                    p.push(valor);
+                } else {
+                    System.out.println("Valor da variável " + simbolo + " não encontrado.");
+                    return -1; // Retorna um valor indicando erro
+                }
             } 
             // Se é um operador, desempilha dois operandos, calcula e empilha o resultado
             else if (simbolo == '+' || simbolo == '-' || simbolo == '*' || simbolo == '/' || simbolo == '^') {
@@ -28,7 +46,12 @@ public class AvaliadorPosfixo {
                         resultado = operando1 * operando2;
                         break;
                     case '/':
-                        resultado = operando1 / operando2; // Cuidado com divisão por zero
+                        if (operando2 != 0) {
+                            resultado = operando1 / operando2; // Cuidado com divisão por zero
+                        } else {
+                            System.out.println("Erro: Divisão por zero.");
+                            return -1; // Indica erro
+                        }
                         break;
                     case '^':
                         resultado = (int) Math.pow(operando1, operando2);
@@ -37,7 +60,7 @@ public class AvaliadorPosfixo {
                 p.push(resultado); // Empilha o resultado
             }
         }
-        
+
         // O resultado final será o único item restante na pilha
         return (int) p.pop(); // Retorna o resultado final
     }
