@@ -6,14 +6,18 @@ public class AvaliadorPosfixo {
     }
 
     public void atribuir(String variavel, int valor) {
+        // Verificar se a variável já existe e atualizar o valor
+        Integer valorExistente = pilhaVariaveis.getValue(variavel);
+        if (valorExistente != null) {
+            // Se a variável já existe, desempilhe-a
+            pilhaVariaveis.popValue(variavel);
+        }
+        // Adiciona ou atualiza a variável
         pilhaVariaveis.push(variavel, valor);
-        System.out.println("Pilha de Variáveis após atribuição: " + pilhaVariaveis.toString()); // Print de debug
-
     }
 
     public int avaliar(String expressaoPosfixa) {
     	//TODO REMOVER DEBUG
-        System.out.println("Pilha de Variáveis antes de avaliar: " + pilhaVariaveis.toString()); // Print de debug
 
         Pilha p = new Pilha(expressaoPosfixa.length());
 
