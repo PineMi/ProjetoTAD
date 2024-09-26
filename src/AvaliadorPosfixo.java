@@ -39,8 +39,6 @@ public class AvaliadorPosfixo {
     }
 
     public int avaliar(String expressaoPosfixa) {
-    	//TODO REMOVER DEBUG
-
         Pilha p = new Pilha(expressaoPosfixa.length());
 
         // Percorre cada caractere da expressão pós-fixa
@@ -62,10 +60,16 @@ public class AvaliadorPosfixo {
             } 
             // Se é um operador, desempilha dois operandos, calcula e empilha o resultado
             else if (simbolo == '+' || simbolo == '-' || simbolo == '*' || simbolo == '/' || simbolo == '^') {
+                // Verifica se há pelo menos dois operandos na pilha
+                if (p.sizeElements() < 2) {
+                    System.out.println("Erro: operação inválida. Não há operandos suficientes.");
+                    return -1; // Indica erro
+                }
+
                 int operando2 = (int) p.pop(); // Operando do topo da pilha
                 int operando1 = (int) p.pop(); // Segundo operando
 
-                int resultado = 0;
+                int resultado;
                 switch (simbolo) {
                     case '+':
                         resultado = operando1 + operando2;
@@ -87,12 +91,25 @@ public class AvaliadorPosfixo {
                     case '^':
                         resultado = (int) Math.pow(operando1, operando2);
                         break;
+                    default:
+                        // Para qualquer operador não suportado
+                        System.out.println("Erro: operação " + simbolo + " não suportada.");
+                        return -1; // Indica erro
                 }
                 p.push(resultado); // Empilha o resultado
+            } else {
+                // Se o símbolo não for um operador válido
+                System.out.println("Erro: operação " + simbolo + " não suportada.");
+                return -1; // Indica erro
             }
         }
 
         // O resultado final será o único item restante na pilha
-        return (int) p.pop(); // Retorna o resultado final
+        if (p.sizeElements() == 1) {
+            return (int) p.pop(); // Retorna o resultado final
+        } else {
+            System.out.println("Erro: expressão inválida. Verifique os operandos.");
+            return -1; // Indica erro
+        }
     }
 }
