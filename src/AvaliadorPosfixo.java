@@ -4,6 +4,28 @@ public class AvaliadorPosfixo {
     public AvaliadorPosfixo() {
         this.pilhaVariaveis = new Pilha();
     }
+    
+    public void listarVariaveis() {
+        Pilha temp = new Pilha(); // Pilha temporária para não modificar a original
+        System.out.println("Variáveis definidas:");
+        
+        while (!pilhaVariaveis.isEmpty()) {
+            ParVariavelValor par = (ParVariavelValor) pilhaVariaveis.pop();
+            System.out.println(par.variavel + " = " + par.valor);
+            temp.push(par); // Armazena na pilha temporária
+        }
+
+        // Restaura a pilha original
+        while (!temp.isEmpty()) {
+            pilhaVariaveis.push(temp.pop());
+        }
+    }
+
+    // Método para reiniciar todas as variáveis
+    public void resetVariaveis() {
+        pilhaVariaveis = new Pilha(); // Reinicia a pilha de variáveis
+        System.out.println("Todas as variáveis foram reiniciadas.");
+    }
 
     public void atribuir(String variavel, int valor) {
         // Verificar se a variável já existe e atualizar o valor

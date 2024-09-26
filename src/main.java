@@ -1,7 +1,6 @@
 import java.util.Scanner;
 
 public class main {
-
     public static void main(String[] args) {
         // Instânciamento dos objetos principais
         Scanner scanner = new Scanner(System.in);
@@ -17,6 +16,18 @@ public class main {
             if (input.equalsIgnoreCase("EXIT")) {
                 System.out.print("\nEncerrando o programa...");
                 break;
+            }
+
+            // Lidar com o comando "VARS"
+            if (input.equalsIgnoreCase("VARS")) {
+                avaliador.listarVariaveis();
+                continue; // Volta ao início do loop
+            }
+
+            // Lidar com o comando "RESET"
+            if (input.equalsIgnoreCase("RESET")) {
+                avaliador.resetVariaveis();
+                continue; // Volta ao início do loop
             }
             
             if (input.contains("=")) {
@@ -34,8 +45,6 @@ public class main {
                     System.out.print("\nResultado: " + resultado);
                 }
             }
-
-            
         }
 
         scanner.close(); // Fechar o scanner para evitar vazamento de recursos
