@@ -7,21 +7,26 @@ public class AvaliadorPosfixo {
 
     public void atribuir(String variavel, int valor) {
         pilhaVariaveis.push(variavel, valor);
+        System.out.println("Pilha de Variáveis após atribuição: " + pilhaVariaveis.toString()); // Print de debug
+
     }
 
     public int avaliar(String expressaoPosfixa) {
+    	//TODO REMOVER DEBUG
+        System.out.println("Pilha de Variáveis antes de avaliar: " + pilhaVariaveis.toString()); // Print de debug
+
         Pilha p = new Pilha(expressaoPosfixa.length());
 
         // Percorre cada caractere da expressão pós-fixa
         for (int i = 0; i < expressaoPosfixa.length(); i++) {
             char simbolo = expressaoPosfixa.charAt(i);
 
-            // Se é um dígito, empilha (convertemos o char em int)
+            // Se é um dígito, empilha
             if (Character.isDigit(simbolo)) {
                 p.push(Character.getNumericValue(simbolo)); // Converte char para int
             } else if (Character.isLetter(simbolo)) {
                 // Se é uma letra, busca seu valor na pilha de variáveis
-                Integer valor = (Integer) pilhaVariaveis.popValue(String.valueOf(simbolo));
+                Integer valor = pilhaVariaveis.getValue(String.valueOf(simbolo));
                 if (valor != null) {
                     p.push(valor);
                 } else {

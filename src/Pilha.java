@@ -70,6 +70,29 @@ public class Pilha {
         push(par);
     }
 
+ // Método para encontrar o valor de uma variável sem removê-la
+    public Integer getValue(String variavel) {
+        Pilha temp = new Pilha(); // Criamos uma pilha temporária para restaurar os elementos
+        Integer valor = null;
+
+        // Percorremos a pilha original
+        while (!isEmpty()) {
+            ParVariavelValor par = (ParVariavelValor) pop(); // Remove do topo da pilha
+            if (par.variavel.equals(variavel)) {
+                valor = par.valor; // Encontramos o valor da variável
+            }
+            temp.push(par); // Armazena na pilha temporária
+        }
+
+        // Restaura a pilha original com os elementos da pilha temporária
+        while (!temp.isEmpty()) {
+            push(temp.pop());
+        }
+
+        return valor; // Retorna o valor encontrado ou null se não encontrado
+    }
+
+    
     // Sobrescrita do método toString()
     @Override
     public String toString() {

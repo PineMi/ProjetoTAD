@@ -14,6 +14,11 @@ public class main {
             System.out.print("\n> ");
             String input = scanner.nextLine();
             
+            if (input.equalsIgnoreCase("EXIT")) {
+                System.out.print("\nEncerrando o programa...");
+                break;
+            }
+            
             if (input.contains("=")) {
                 String[] partes = input.split("=");
                 String variavel = partes[0].trim();
@@ -30,10 +35,7 @@ public class main {
                 }
             }
 
-            if (input.equalsIgnoreCase("EXIT")) {
-                System.out.print("\nEncerrando o programa...");
-                break;
-            }
+            
         }
 
         scanner.close(); // Fechar o scanner para evitar vazamento de recursos
