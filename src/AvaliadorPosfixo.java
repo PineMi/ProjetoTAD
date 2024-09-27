@@ -1,10 +1,14 @@
 public class AvaliadorPosfixo {
     private Pilha pilhaVariaveis;
 
+    
+    /////////////////////////////////////////////////////////////////////////////////PILHA INVERTIDA, TROCAR POR FILA
     public AvaliadorPosfixo() {
         this.pilhaVariaveis = new Pilha();
     }
     
+    
+    /////////////////////////////////////////////////////////////////////////////////PILHA INVERTIDA, TROCAR POR FILA
     public void listarVariaveis() {
         Pilha temp = new Pilha(); // Pilha temporária para não modificar a original
         System.out.println("Variáveis definidas:");
@@ -21,6 +25,8 @@ public class AvaliadorPosfixo {
         }
     }
 
+    
+    /////////////////////////////////////////////////////////////////////////////////PILHA INVERTIDA, TROCAR POR FILA
     // Método para reiniciar todas as variáveis
     public void resetVariaveis() {
         pilhaVariaveis = new Pilha(); // Reinicia a pilha de variáveis
@@ -46,6 +52,11 @@ public class AvaliadorPosfixo {
             char simbolo = expressaoPosfixa.charAt(i);
 
             // Se é um dígito, empilha
+
+            //////////////////////////////////////////////////////////////////////////////////////
+            // PROVAVELMENTE É AQUI QUE VOCÊ ARRUMA O USO DE NÚMEROS
+            //////////////////////////////////////////////////////////////////////////////////////
+
             if (Character.isDigit(simbolo)) {
                 p.push(Character.getNumericValue(simbolo)); // Converte char para int
             } else if (Character.isLetter(simbolo)) {
@@ -58,6 +69,7 @@ public class AvaliadorPosfixo {
                     return -1; // Retorna um valor indicando erro
                 }
             } 
+
             // Se é um operador, desempilha dois operandos, calcula e empilha o resultado
             else if (simbolo == '+' || simbolo == '-' || simbolo == '*' || simbolo == '/' || simbolo == '^') {
                 // Verifica se há pelo menos dois operandos na pilha

@@ -3,6 +3,10 @@ public class ConversorInfPos {
         Pilha p = new Pilha(input_infixo.length());
         StringBuilder output = new StringBuilder();
         
+        //////////////////////////////////////////////////////////////////
+        /// AQUI ESTÁ O PROBLEMA DOS PARENTESES e o opcional de NEGACAO
+        ///////////////////////////////////////////////////////////////////
+
         for (int i = 0; i < input_infixo.length(); i++) {
             char simbolo = input_infixo.charAt(i);
             
