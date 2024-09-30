@@ -71,8 +71,13 @@ public class main {
 	            System.out.println("Gravação apagada.");
 	            continue; // Volta ao início do loop
 	        }
-
-	        // Chamando executarComando
+	        
+	        if (input.length() > 1 && input.matches("[a-zA-Z]+")) {
+	            System.out.println("Erro: comando inválido '" + input + "'."); // Gera erro para comando inválido
+	            continue; // Volta ao início do loop
+	        }
+	        
+            // Chamando executarComando
 	        executarComando(input, comandos, conversor, avaliador, gravando, true);
 	    }
 

@@ -5,11 +5,8 @@ public class AvaliadorPosfixo {
         this.filaVariaveis = new FilaCircular<>(); // Inicializa a fila
     }
     
-    
     public void listarVariaveis() {
         System.out.println("Variáveis definidas:");
-
-        // Percorre todos os elementos da fila
         for (int i = 0; i < filaVariaveis.totalElementos(); i++) {
             try {
                 ParVariavelValor par = filaVariaveis.dequeue(); // Remove da fila
@@ -22,44 +19,37 @@ public class AvaliadorPosfixo {
         }
     }
 
-
-
-    // Método para reiniciar todas as variáveis
     public void resetVariaveis() {
-    	filaVariaveis = new FilaCircular<>(); // Reinicia a pilha de variáveis
+        filaVariaveis = new FilaCircular<>(); // Reinicia a fila de variáveis
     }
 
     public void atribuir(String variavel, int valor) {
         int tamanhoFila = filaVariaveis.totalElementos(); // Captura o total de elementos na fila
         boolean encontrado = false; // Flag para verificar se a variável foi encontrada
 
-        // Itera sobre os elementos da fila
         for (int i = 0; i < tamanhoFila; i++) {
             try {
                 ParVariavelValor par = filaVariaveis.dequeue(); // Remove da fila
 
                 if (par.variavel.equalsIgnoreCase(variavel)) {
-                    // Se a variável já existe, atualizamos o valor
                     par.valor = valor; // Atualiza o valor da variável
                     encontrado = true; // Atualiza a flag
                 }
-                filaVariaveis.enqueue(par);
-
+                filaVariaveis.enqueue(par); // Reinsere o par na fila
             } catch (Exception e) {
                 System.out.println("Erro ao atribuir variável: " + e.getMessage());
             }
         }
+
         // Se a variável não foi encontrada, adicionamos a nova variável
         if (!encontrado) {
-        	filaVariaveis.enqueue(new ParVariavelValor(variavel, valor)); // Cria e adiciona a nova variável
+            filaVariaveis.enqueue(new ParVariavelValor(variavel, valor)); // Cria e adiciona a nova variável
         } 
     }
-
 
     public String avaliar(String expressaoPosfixa) {
         Pilha p = new Pilha(expressaoPosfixa.length());
         
-        // Percorre cada caractere da expressão pós-fixa
         for (int i = 0; i < expressaoPosfixa.length(); i++) {
             char simbolo = expressaoPosfixa.charAt(i);
 
@@ -67,8 +57,6 @@ public class AvaliadorPosfixo {
             if (Character.isDigit(simbolo)) {
                 p.push(Character.getNumericValue(simbolo)); // Empilha o número
             } else if (Character.isLetter(simbolo)) {
-                // Se é uma letra, busca seu valor na Fila de variáveis
-            	
                 Integer valor = null;
 
                 for (int k = 0; k < filaVariaveis.totalElementos(); k++) {
@@ -82,48 +70,56 @@ public class AvaliadorPosfixo {
                         return null; // Retorna null se houver erro na fila
                     }
                 }
-           
+
                 if (valor != null) {
-                    p.push(valor);
+                    p.push(valor); // Empilha o valor da variável
                 } else {
                     return "Valor da variável " + simbolo + " não encontrado."; // Retorna mensagem de erro
                 }
-            } else if (simbolo == '+' || simbolo == '-' || simbolo == '*' || simbolo == '/' || simbolo == '^') {
-                // Verifica se há pelo menos dois operandos na pilha
-                if (p.sizeElements() < 2) {
-                    return "Erro: operação inválida. Não há operandos suficientes."; // Retorna mensagem de erro
-                }
+            } else if (isOperator(simbolo)) {
+                if (simbolo == '~') { // Negação unária
+                    if (p.sizeElements() < 1) {
+                        return "Erro: operação inválida. Não há operandos suficientes."; // Retorna mensagem de erro
+                    }
 
-                int operando2 = (int) p.pop(); // Operando do topo da pilha
-                int operando1 = (int) p.pop(); // Segundo operando
+                    int operando = (int) p.pop(); // Obtém o operando
+                    p.push(-operando); // Aplica a negação e empilha o resultado
+                } else {
+                    // Verifica se há pelo menos dois operandos na pilha
+                    if (p.sizeElements() < 2) {
+                        return "Erro: operação inválida. Não há operandos suficientes."; // Retorna mensagem de erro
+                    }
 
-                int resultado;
-                switch (simbolo) {
-                    case '+':
-                        resultado = operando1 + operando2;
-                        break;
-                    case '-':
-                        resultado = operando1 - operando2;
-                        break;
-                    case '*':
-                        resultado = operando1 * operando2;
-                        break;
-                    case '/':
-                        if (operando2 != 0) {
-                            resultado = operando1 / operando2; // Cuidado com divisão por zero
-                        } else {
-                            return "Erro: Divisão por zero."; // Retorna mensagem de erro
-                        }
-                        break;
-                    case '^':
-                        resultado = (int) Math.pow(operando1, operando2);
-                        break;
-                    default:
-                        return "Erro: operação " + simbolo + " não suportada."; // Retorna mensagem de erro
+                    int operando2 = (int) p.pop(); // Operando do topo da pilha
+                    int operando1 = (int) p.pop(); // Segundo operando
+
+                    int resultado;
+                    switch (simbolo) {
+                        case '+':
+                            resultado = operando1 + operando2;
+                            break;
+                        case '-':
+                            resultado = operando1 - operando2;
+                            break;
+                        case '*':
+                            resultado = operando1 * operando2;
+                            break;
+                        case '/':
+                            if (operando2 != 0) {
+                                resultado = operando1 / operando2; // Cuidado com divisão por zero
+                            } else {
+                                return "Erro: Divisão por zero."; // Retorna mensagem de erro
+                            }
+                            break;
+                        case '^':
+                            resultado = (int) Math.pow(operando1, operando2);
+                            break;
+                        default:
+                            return "Erro: operação " + simbolo + " não suportada."; // Retorna mensagem de erro
+                    }
+                    p.push(resultado); // Empilha o resultado
                 }
-                p.push(resultado); // Empilha o resultado
             } else {
-                // Se o símbolo não for um operador válido
                 return "Erro: operação " + simbolo + " não suportada."; // Retorna mensagem de erro
             }
         }
@@ -134,5 +130,10 @@ public class AvaliadorPosfixo {
         } else {
             return "Erro: expressão inválida. Verifique os operandos."; // Retorna mensagem de erro
         }
+    }
+
+    // Método para verificar se o caractere é um operador
+    private boolean isOperator(char simbolo) {
+        return simbolo == '+' || simbolo == '-' || simbolo == '*' || simbolo == '/' || simbolo == '^' || simbolo == '~';
     }
 }
