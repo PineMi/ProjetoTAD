@@ -111,9 +111,9 @@ public class main {
                 System.out.println("Variáveis reiniciadas.");
             } else {
                 try {
-                    int resultado = avaliador.avaliar(conversor.Posfixo(comando));
+                    String resultado = avaliador.avaliar(conversor.Posfixo(comando));
                     if (exibirResultado) {
-                        System.out.println("Resultado: " + resultado);
+                        System.out.println(resultado);
                     }
                 } catch (Exception e) {
                     System.out.println("Erro ao avaliar a expressão: " + comando);
