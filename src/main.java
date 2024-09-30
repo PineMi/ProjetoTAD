@@ -12,7 +12,7 @@ public class main {
 	    // Loop de execução principal
 	    while (true) {
 	        // Input de comandos e expressões
-	        System.out.print("\n> ");
+	        System.out.print("> ");
 	        String input = scanner.nextLine().trim();
 
 	        if (input.equalsIgnoreCase("EXIT")) {
@@ -55,6 +55,9 @@ public class main {
 	                for (int i = 0; i < totalComandos; i++) {
 	                    try {
 	                        String comando = comandos.dequeue(); // Remove o comando da fila
+	                        if (comando.matches(".*[a-zA-Z].*") && comando.matches(".*[^a-zA-Z0-9=\\s].*")) {
+	                        	System.out.print("["+comando+"] ");
+	                        }
 	                        executarComando(comando, comandos, conversor, avaliador, false, true); // Executa o comando gravado
 	                        comandos.enqueue(comando);
 	                    } catch (Exception e) {
@@ -72,10 +75,7 @@ public class main {
 	            continue; // Volta ao início do loop
 	        }
 	        
-	        if (input.length() > 1 && input.matches("[a-zA-Z]+")) {
-	            System.out.println("Erro: comando inválido '" + input + "'."); // Gera erro para comando inválido
-	            continue; // Volta ao início do loop
-	        }
+	        
 	        
             // Chamando executarComando
 	        executarComando(input, comandos, conversor, avaliador, gravando, true);
@@ -83,11 +83,7 @@ public class main {
 
 	    scanner.close(); // Fecha o scanner para evitar vazamento de recursos
 	}
-
-
-    
-    
-
+	
  // Função auxiliar para executar comandos, com gravação
     private static void executarComando(String comando, FilaCircular<String> comandos, ConversorInfPos conversor, AvaliadorPosfixo avaliador, boolean gravando, boolean exibirResultado) {
         if (gravando) {
@@ -114,6 +110,8 @@ public class main {
             } else if (comando.equalsIgnoreCase("RESET")) {
                 avaliador.resetVariaveis();
                 System.out.println("Variáveis reiniciadas.");
+            } else if (comando.length() > 1 && comando.matches("[a-zA-Z]+")) {
+	            System.out.println("Erro: comando inválido '" + comando + "'."); // Gera erro para comando inválido	            
             } else {
                 try {
                     String resultado = avaliador.avaliar(conversor.Posfixo(comando));

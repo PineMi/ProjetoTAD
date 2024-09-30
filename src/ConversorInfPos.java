@@ -63,7 +63,7 @@ public class ConversorInfPos {
             output.append((char) p.pop());
         }
         
-        System.out.print("\nPosfixa: " + output.toString() + "\n");
+        //System.out.print("\nPosfixa: " + output.toString() + "\n");
 
         if (output.toString().contains("(") || output.toString().contains(")")) {
             throw new IllegalArgumentException("Parênteses não balanceados");

@@ -49,6 +49,8 @@ public class AvaliadorPosfixo {
 
     public String avaliar(String expressaoPosfixa) {
         Pilha p = new Pilha(expressaoPosfixa.length());
+        StringBuilder erros = new StringBuilder(); 
+
         
         for (int i = 0; i < expressaoPosfixa.length(); i++) {
             char simbolo = expressaoPosfixa.charAt(i);
@@ -74,7 +76,8 @@ public class AvaliadorPosfixo {
                 if (valor != null) {
                     p.push(valor); // Empilha o valor da variável
                 } else {
-                    return "Valor da variável " + simbolo + " não encontrado."; // Retorna mensagem de erro
+                	erros.append("Valor da variável ").append(simbolo).append(" não encontrado.\n");
+                    p.push(1);
                 }
             } else if (isOperator(simbolo)) {
                 if (simbolo == '~') { // Negação unária
@@ -122,6 +125,10 @@ public class AvaliadorPosfixo {
             } else {
                 return "Erro: operação " + simbolo + " não suportada."; // Retorna mensagem de erro
             }
+        }
+        
+        if (erros.length() > 0) {
+            return erros.toString(); // Retorna todas as mensagens de erro
         }
 
         // O resultado final será o único item restante na pilha
