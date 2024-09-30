@@ -58,8 +58,10 @@ public class AvaliadorPosfixo {
             //////////////////////////////////////////////////////////////////////////////////////
 
             if (Character.isDigit(simbolo)) {
-                p.push(Character.getNumericValue(simbolo)); // Converte char para int
-            } else if (Character.isLetter(simbolo)) {
+                //p.push(Character.getNumericValue(simbolo)); // Converte char para int
+            	System.out.print("Erro não é permitido o uso de números: " + simbolo + "\n");
+            } else 
+            if (Character.isLetter(simbolo)) {
                 // Se é uma letra, busca seu valor na pilha de variáveis
                 Integer valor = pilhaVariaveis.getValue(String.valueOf(simbolo));
                 if (valor != null) {
@@ -70,6 +72,7 @@ public class AvaliadorPosfixo {
                 }
             } 
 
+            
             // Se é um operador, desempilha dois operandos, calcula e empilha o resultado
             else if (simbolo == '+' || simbolo == '-' || simbolo == '*' || simbolo == '/' || simbolo == '^') {
                 // Verifica se há pelo menos dois operandos na pilha

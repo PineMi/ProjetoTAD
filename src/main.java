@@ -6,7 +6,10 @@ public class main {
         Scanner scanner = new Scanner(System.in);
         ConversorInfPos conversor = new ConversorInfPos();
         AvaliadorPosfixo avaliador = new AvaliadorPosfixo();
-        Pilha comandos = new Pilha(10); // Pilha para gravar os comandos
+        /////////////////////
+        // SUBSTITUIR POR FILA
+        ////////////////////
+        Pilha comandos = new Pilha(10); // Pilha para gravar os comandos 
         boolean gravando = false;
         int gravados = 0;
 
@@ -52,6 +55,9 @@ public class main {
                     System.out.println("Não há gravação para ser reproduzida.");
                 } else {
                     System.out.println("Reproduzindo gravação...");
+                    ////////////////////////////////////
+                    /// TROCAR PILHA INVERTIDA POR FILA
+                    ////////////////////////////////////
                     Pilha temp = new Pilha(); // Pilha temporária para execução na ordem correta
                     while (!comandos.isEmpty()) {
                         String comando = (String) comandos.pop();
@@ -105,6 +111,10 @@ public class main {
                 continue; // Volta ao início do loop
             }
 
+            //////////
+            // MELHORAR OS COMENTÁRIO DESSA PARTE
+            //////////
+            
             // Atribuição de variáveis (ex: A = 10)
             if (input.contains("=")) {
                 if (gravando) {
@@ -142,6 +152,9 @@ public class main {
         scanner.close(); // Fecha o scanner para evitar vazamento de recursos
     }
 
+    
+    
+
     // Função auxiliar para executar comandos, sem gravar durante PLAY
     private static void executarComando(String comando, ConversorInfPos conversor, AvaliadorPosfixo avaliador, boolean exibirResultado) {
         if (comando.contains("=")) {
@@ -160,7 +173,7 @@ public class main {
         } else {
             try {
                 int resultado = avaliador.avaliar(conversor.Posfixo(comando));
-                if (exibirResultado && resultado != -1) {
+                if (exibirResultado) {
                     System.out.println("Resultado: " + resultado);
                 }
             } catch (Exception e) {
