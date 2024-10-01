@@ -1,49 +1,48 @@
 public class ConversorInfPos {
+    
+    // Método para converter uma expressão infixa em pós-fixa
     public String Posfixo(String input_infixo) {
-        Pilha p = new Pilha(input_infixo.length());
-        StringBuilder output = new StringBuilder();
-        
-        
+        Pilha p = new Pilha(input_infixo.length()); // Pilha para armazenar operadores
+        StringBuilder output = new StringBuilder(); // String para armazenar a expressão pós-fixa
 
+        // Itera sobre cada caractere da expressão
         for (int i = 0; i < input_infixo.length(); i++) {
             char simbolo = input_infixo.charAt(i);
             
-            // Se o caractere é uma letra ou dígito, adiciona ao output
+            // Impede o uso direto de números nas expressões
             if (Character.isDigit(simbolo)) {
             	System.out.print("Para realizar operações armazene seus números em variáveis (ex: A = 10)\n");
                 throw new IllegalArgumentException("Não são permitidos números");
             }
             
+            // Adiciona letras diretamente ao output (variáveis)
             if (Character.isLetter(simbolo)) {
                 output.append(simbolo);
             }
             
-            // Se o caractere é um '(', empilha
+            // Empilha '('
             else if (simbolo == '(') {
                 p.push(simbolo);
             }
             
-            // Se o caractere é um ')', desempilha até encontrar '('
+            // Desempilha até encontrar '(' ao fechar parênteses ')'
             else if (simbolo == ')') {
                 while (!p.isEmpty() && (char) p.topo() != '(') {
-                    output.append((char) p.pop()); 
+                    output.append((char) p.pop());
                 }
                 if (!p.isEmpty()) {
-                    p.pop(); // Remove o '(' da pilha
+                    p.pop(); // Remove '(' da pilha
                 } else {
-                    // Se não encontrar o parêntese correspondente, lança um erro
                     throw new IllegalArgumentException("Parênteses não balanceados");
                 }
             }
             
-            // Se o caractere é um '-', determinar se é uma negação unária
+            // Trata o operador '-' como negação unária ou operador binário
             else if (simbolo == '-') {
-                // Verifica se é unário (no início, após '(', ou após operador)
                 if (i == 0 || input_infixo.charAt(i - 1) == '(' || isOperator(input_infixo.charAt(i - 1))) {
-                    // Trata como unário, usa '~' para representar a negação
-                    p.push('~'); // Empilha o operador unário
+                    p.push('~'); // Representa a negação unária com '~'
                 } else {
-                    // Caso contrário, trata como operador binário
+                    // Trata como operador binário
                     while (!p.isEmpty() && ordem_de_operacao(simbolo) <= ordem_de_operacao((char) p.topo())) {
                         output.append((char) p.pop());
                     }
@@ -51,7 +50,7 @@ public class ConversorInfPos {
                 }
             }
             
-            // Se o caractere é um operador
+            // Processa operadores comuns (+, -, *, /, ^)
             else if (isOperator(simbolo)) {
                 while (!p.isEmpty() && ordem_de_operacao(simbolo) <= ordem_de_operacao((char) p.topo())) {
                     output.append((char) p.pop());
@@ -59,38 +58,39 @@ public class ConversorInfPos {
                 p.push(simbolo);
             }
         }
+
+        // Desempilha quaisquer operadores restantes
         while (!p.isEmpty()) {
             output.append((char) p.pop());
         }
-        
-        //System.out.print("\nPosfixa: " + output.toString() + "\n");
 
+        // Verifica se os parênteses estão balanceados
         if (output.toString().contains("(") || output.toString().contains(")")) {
             throw new IllegalArgumentException("Parênteses não balanceados");
         }
 
-        return output.toString();
+        return output.toString(); // Retorna a expressão em pós-fixa
     }
     
-    
+    // Verifica se o símbolo é um operador
     private boolean isOperator(char simbolo) {
         return simbolo == '+' || simbolo == '-' || simbolo == '*' || simbolo == '/' || simbolo == '^' || simbolo == '~';
     }
     
-    // Método para determinar a prioridade de cada operador
+    // Define a prioridade de operadores
     private int ordem_de_operacao(char operador) {
         switch (operador) {
             case '+':
             case '-':
-                return 1;
+                return 1; // Menor prioridade
             case '*':
             case '/':
                 return 2;
             case '^':
                 return 3;
             case '~':
-                return 4;
+                return 4; // Maior prioridade para a negação unária
         }
-        return -1; // Em caso de operador inválido...
+        return -1; // Operador inválido
     }
 }

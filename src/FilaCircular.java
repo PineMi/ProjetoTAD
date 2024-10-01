@@ -71,15 +71,7 @@ public class FilaCircular <T>{
 		return qtde;
 	}
 	
-	// Sobrescrita/sobreposição (override) do método toString(), que veio da superclasse Object.
-	// O retorno do método toString() é a representação de um objeto em formato string, e toString()
-	// geralmente é executado (de forma implícita) quando passamos um objeto ao System.out.print*().
-	//
-	// Experimente incluir o seguinte código na main() e veja a saída:
-	// FilaCircular f = new FilaCircular();
-	// System.out.println(f);
-	//
-	// Depois, remova/comente o método toString() abaixo e rode o código acima novamente.
+	
 	@Override
 	public String toString()  {
 		try {

@@ -2,25 +2,26 @@ import java.util.Scanner;
 
 public class main {
 	public static void main(String[] args) {
-	    // Instância dos objetos principais
+	    // Inicialização dos objetos principais: Scanner para entrada, conversor de expressão e avaliador de expressões.
 	    Scanner scanner = new Scanner(System.in);
 	    ConversorInfPos conversor = new ConversorInfPos();
 	    AvaliadorPosfixo avaliador = new AvaliadorPosfixo();
-	    FilaCircular<String> comandos = new FilaCircular<>(10); // Fila para gravar os comandos 
-	    boolean gravando = false;
+	    FilaCircular<String> comandos = new FilaCircular<>(10); // Fila para armazenar comandos gravados.
+	    boolean gravando = false; // Estado da gravação (ativado/desativado).
 
-	    // Loop de execução principal
+	    // Loop principal de execução do programa.
 	    while (true) {
-	        // Input de comandos e expressões
+	        // Entrada do usuário.
 	        System.out.print("> ");
 	        String input = scanner.nextLine().trim();
 
+	        // Comando para encerrar o programa.
 	        if (input.equalsIgnoreCase("EXIT")) {
 	            System.out.print("\nEncerrando o programa...");
 	            break;
 	        }
 
-	        // Comando "REC" para iniciar gravação
+	        // Comando para iniciar a gravação de comandos.
 	        if (input.equalsIgnoreCase("REC")) {
 	            if (gravando) {
 	                System.out.println("Já está em modo REC.");
@@ -28,10 +29,10 @@ public class main {
 	                gravando = true;
 	                System.out.println("Iniciando gravação... (REC: 0/10)");
 	            }
-	            continue; // Volta ao início do loop
+	            continue;
 	        }
 
-	        // Comando "STOP" para parar gravação
+	        // Comando para parar a gravação de comandos.
 	        if (input.equalsIgnoreCase("STOP")) {
 	            if (!gravando) {
 	                System.out.println("Erro: não há gravação em andamento.");
@@ -39,10 +40,10 @@ public class main {
 	                gravando = false;
 	                System.out.println("Encerrando gravação...");
 	            }
-	            continue; // Volta ao início do loop
+	            continue;
 	        }
 
-	        // Comando "PLAY" para reproduzir a gravação
+	        // Comando para reproduzir comandos gravados.
 	        if (input.equalsIgnoreCase("PLAY")) {
 	            if (gravando) {
 	                System.out.println("Erro: comando inválido para gravação.");
@@ -54,41 +55,43 @@ public class main {
 	                int totalComandos = comandos.totalElementos();
 	                for (int i = 0; i < totalComandos; i++) {
 	                    try {
-	                        String comando = comandos.dequeue(); // Remove o comando da fila
+	                        String comando = comandos.dequeue(); // Remove o comando da fila.
+	                        
+	                        // Verifica se a string contém letras e símbolos não alfabéticos.
 	                        if (comando.matches(".*[a-zA-Z].*") && comando.matches(".*[^a-zA-Z0-9=\\s].*")) {
 	                        	System.out.print("["+comando+"] ");
 	                        }
-	                        executarComando(comando, comandos, conversor, avaliador, false, true); // Executa o comando gravado
-	                        comandos.enqueue(comando);
+	                        executarComando(comando, comandos, conversor, avaliador, false, true); // Executa o comando gravado.
+	                        comandos.enqueue(comando); // Reinsere o comando após execução.
 	                    } catch (Exception e) {
 	                        System.out.println("Erro ao reproduzir comando: " + e.getMessage());
 	                    }
 	                }
 	            }
-	            continue; // Volta ao início do loop
+	            continue;
 	        }
 
-	        // Comando "ERASE" para apagar a gravação
+	        // Comando para apagar gravações armazenadas.
 	        if (input.equalsIgnoreCase("ERASE")) {
-	            comandos = new FilaCircular<>(10); // Limpa a fila de comandos
+	            comandos = new FilaCircular<>(10); // Limpa a fila de gravação.
 	            System.out.println("Gravação apagada.");
-	            continue; // Volta ao início do loop
+	            continue;
 	        }
 	        
-	        
-	        
-            // Chamando executarComando
+	        // Executa comandos e expressões.
 	        executarComando(input, comandos, conversor, avaliador, gravando, true);
 	    }
 
-	    scanner.close(); // Fecha o scanner para evitar vazamento de recursos
+	    scanner.close(); // Fecha o scanner ao encerrar o programa.
 	}
 	
- // Função auxiliar para executar comandos, com gravação
+	// Método para executar comandos, gravações e expressões matemáticas.
     private static void executarComando(String comando, FilaCircular<String> comandos, ConversorInfPos conversor, AvaliadorPosfixo avaliador, boolean gravando, boolean exibirResultado) {
+        
+        // Se estiver no modo de gravação.
         if (gravando) {
             try {
-                comandos.enqueue(comando); // Grava o comando na fila
+                comandos.enqueue(comando); // Grava o comando na fila.
                 System.out.println("(REC: " + comandos.totalElementos() + "/10) " + comando);
                 if (comandos.totalElementos() >= 10) {
                     System.out.println("Limite de gravação atingido. Encerrando gravação.");
@@ -97,6 +100,7 @@ public class main {
                 System.out.println("Erro ao gravar comando: " + e.getMessage());
             }
         } else {
+            // Tratamento de atribuição de variáveis.
             if (comando.contains("=")) {
                 String[] partes = comando.split("=");
                 String variavel = partes[0].trim();
@@ -105,19 +109,32 @@ public class main {
                 if (exibirResultado) {
                     System.out.println("Atribuído: " + variavel + " = " + valor);
                 }
-            } else if (comando.equalsIgnoreCase("VARS")) {
+            } 
+            // Comando para listar variáveis.
+            else if (comando.equalsIgnoreCase("VARS")) {
                 avaliador.listarVariaveis();
-            } else if (comando.equalsIgnoreCase("RESET")) {
+            }
+            // Comando para reiniciar variáveis.
+            else if (comando.equalsIgnoreCase("RESET")) {
                 avaliador.resetVariaveis();
                 System.out.println("Variáveis reiniciadas.");
-            } else if (comando.length() > 1 && comando.matches("[a-zA-Z]+")) {
-	            System.out.println("Erro: comando inválido '" + comando + "'."); // Gera erro para comando inválido	            
-            } else {
+            } 
+            // Erro para comandos inválidos.
+            else if (comando.length() > 1 && comando.matches("[a-zA-Z]+")) {
+	            System.out.println("Erro: comando inválido '" + comando + "'.");
+            } 
+            // Avaliação de expressões matemáticas.
+            else {
                 try {
-                    String resultado = avaliador.avaliar(conversor.Posfixo(comando));
-                    if (exibirResultado) {
-                        System.out.println(resultado);
-                    }
+                	String expressaoPosfixa = conversor.Posfixo(comando);
+                	if (avaliador.expressaoValida(expressaoPosfixa)) {
+                		String resultado = avaliador.avaliar(expressaoPosfixa);
+	                    if (exibirResultado) {
+	                        System.out.println(resultado);
+	                    }
+                	} else {
+                		System.out.println("Erro ao avaliar a expressão: " + comando);
+                	}
                 } catch (Exception e) {
                     System.out.println("Erro ao avaliar a expressão: " + comando);
                 }
