@@ -1,13 +1,22 @@
+// PROJETO - ESTRUTURA DE DADOS - TAD
+// Bruno Germanetti Ramalho - RA 10426491
+// Miguel Piñeiro Coratolo Simões - RA 10427085
+// 01/10/2024 - 3ºSemestre - Ciências da Computação
+// Universidade Presbiteriana Mackenzie - FCI
+
+// Referências:
+// Reverse Polish Notation and The Stack - https://www.youtube.com/watch?v=7ha78yWRDlE
+// Java Guides - https://www.javaguides.net/2024/06/
+
 import java.util.Scanner;
 
 public class main {
 	public static void main(String[] args) {
-	    // Inicialização dos objetos principais: Scanner para entrada, conversor de expressão e avaliador de expressões.
 	    Scanner scanner = new Scanner(System.in);
 	    ConversorInfPos conversor = new ConversorInfPos();
 	    AvaliadorPosfixo avaliador = new AvaliadorPosfixo();
-	    FilaCircular<String> comandos = new FilaCircular<>(10); // Fila para armazenar comandos gravados.
-	    boolean gravando = false; // Estado da gravação (ativado/desativado).
+	    FilaCircular<String> comandos = new FilaCircular<>(10); 
+	    boolean gravando = false; 
 
 	    // Loop principal de execução do programa.
 	    while (true) {
@@ -55,7 +64,7 @@ public class main {
 	                int totalComandos = comandos.totalElementos();
 	                for (int i = 0; i < totalComandos; i++) {
 	                    try {
-	                        String comando = comandos.dequeue(); // Remove o comando da fila.
+	                        String comando = comandos.dequeue(); 
 	                        
 	                        // Verifica se a string contém letras e símbolos não alfabéticos.
 	                        if (comando.matches(".*[a-zA-Z].*") && comando.matches(".*[^a-zA-Z0-9=\\s].*")) {
@@ -74,15 +83,13 @@ public class main {
 	        // Comando para apagar gravações armazenadas.
 	        if (input.equalsIgnoreCase("ERASE")) {
 	            comandos = new FilaCircular<>(10); // Limpa a fila de gravação.
-	            System.out.println("Gravação apagada.");
+	            System.out.println("Gravação apagada. ");
 	            continue;
 	        }
 	        
-	        // Executa comandos e expressões.
 	        executarComando(input, comandos, conversor, avaliador, gravando, true);
 	    }
-
-	    scanner.close(); // Fecha o scanner ao encerrar o programa.
+	    scanner.close(); 
 	}
 	
 	// Método para executar comandos, gravações e expressões matemáticas.

@@ -1,3 +1,9 @@
+// PROJETO - ESTRUTURA DE DADOS - TAD
+// Bruno Germanetti Ramalho - RA 10426491
+// Miguel Piñeiro Coratolo Simões - RA 10427085
+// 01/10/2024 - 3ºSemestre - Ciências da Computação
+// Universidade Presbiteriana Mackenzie - FCI
+
 public class ConversorInfPos {
     
     // Método para converter uma expressão infixa em pós-fixa
@@ -9,18 +15,15 @@ public class ConversorInfPos {
         for (int i = 0; i < input_infixo.length(); i++) {
             char simbolo = input_infixo.charAt(i);
             
-            // Impede o uso direto de números nas expressões
             if (Character.isDigit(simbolo)) {
             	System.out.print("Para realizar operações armazene seus números em variáveis (ex: A = 10)\n");
                 throw new IllegalArgumentException("Não são permitidos números");
             }
             
-            // Adiciona letras diretamente ao output (variáveis)
             if (Character.isLetter(simbolo)) {
                 output.append(simbolo);
             }
             
-            // Empilha '('
             else if (simbolo == '(') {
                 p.push(simbolo);
             }
@@ -37,10 +40,9 @@ public class ConversorInfPos {
                 }
             }
             
-            // Trata o operador '-' como negação unária ou operador binário
             else if (simbolo == '-') {
                 if (i == 0 || input_infixo.charAt(i - 1) == '(' || isOperator(input_infixo.charAt(i - 1))) {
-                    p.push('~'); // Representa a negação unária com '~'
+                    p.push('~'); // Negação unária com '~'
                 } else {
                     // Trata como operador binário
                     while (!p.isEmpty() && ordem_de_operacao(simbolo) <= ordem_de_operacao((char) p.topo())) {
@@ -50,7 +52,7 @@ public class ConversorInfPos {
                 }
             }
             
-            // Processa operadores comuns (+, -, *, /, ^)
+            // Processa operadores
             else if (isOperator(simbolo)) {
                 while (!p.isEmpty() && ordem_de_operacao(simbolo) <= ordem_de_operacao((char) p.topo())) {
                     output.append((char) p.pop());
@@ -69,7 +71,7 @@ public class ConversorInfPos {
             throw new IllegalArgumentException("Parênteses não balanceados");
         }
 
-        return output.toString(); // Retorna a expressão em pós-fixa
+        return output.toString(); 
     }
     
     // Verifica se o símbolo é um operador
@@ -82,15 +84,15 @@ public class ConversorInfPos {
         switch (operador) {
             case '+':
             case '-':
-                return 1; // Menor prioridade
+                return 1; 
             case '*':
             case '/':
                 return 2;
             case '^':
                 return 3;
             case '~':
-                return 4; // Maior prioridade para a negação unária
+                return 4; 
         }
-        return -1; // Operador inválido
+        return -1; 
     }
 }
