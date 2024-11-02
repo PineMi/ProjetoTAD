@@ -1,7 +1,7 @@
-// PROJETO - ESTRUTURA DE DADOS - TAD
+// PROJETO - ESTRUTURA DE DADOS - TAD 2
 // Bruno Germanetti Ramalho - RA 10426491
 // Miguel Piñeiro Coratolo Simões - RA 10427085
-// 01/10/2024 - 3ºSemestre - Ciências da Computação
+// 01/11/2024 - 3ºSemestre - Ciências da Computação
 // Universidade Presbiteriana Mackenzie - FCI
 
 public class FilaCircular <T>{

@@ -1,5 +1,8 @@
-// Código Disponibilizado em Aula pelo professor Ivan Carlos Alcântara de Oliveira.
-
+// PROJETO - ESTRUTURA DE DADOS - TAD 2
+// Bruno Germanetti Ramalho - RA 10426491
+// Miguel Piñeiro Coratolo Simões - RA 10427085
+// 01/11/2024 - 3ºSemestre - Ciências da Computação
+// Universidade Presbiteriana Mackenzie - FCI
 
 public class ListaEncadeada<T> {
 	private Node<T> head; // Ponteiro cabeça de lista
@@ -28,6 +31,11 @@ public class ListaEncadeada<T> {
 	public Node<T> getHead() {
 		return head;
 	}
+	
+	public void setHead(Node<T> head) {
+	    this.head = head;
+	}
+	
 	// get(int pos): retorna o "Node" que se encontra na posição "pos" da lista.	
 	//   O head está na posição 1. Lista vazia retorna null. Se pos > size retorna null.
 	public Node<T> get(int pos) {
@@ -258,7 +266,7 @@ public class ListaEncadeada<T> {
 	    sb.append("L: [ ");
 	    Node<T> pAnda = head;
 	    while (pAnda != null) {
-	      sb.append(pAnda.getDado()+" ");
+	      sb.append(pAnda.getDado()+", ");
 	      qtde++;
 	      pAnda = pAnda.getProx();
 	    }

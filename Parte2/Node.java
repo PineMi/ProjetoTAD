@@ -1,23 +1,31 @@
-// Código Disponibilizado em Aula pelo professor Ivan Carlos Alcântara de Oliveira.
+// PROJETO - ESTRUTURA DE DADOS - TAD 2
+// Bruno Germanetti Ramalho - RA 10426491
+// Miguel Piñeiro Coratolo Simões - RA 10427085
+// 01/11/2024 - 3ºSemestre - Ciências da Computação
+// Universidade Presbiteriana Mackenzie - FCI
 
 public class Node <T>{
 	private T dado; // dado (tipo genérico) a ser armazenado no Node
 	private Node<T> prox; // ponteiro para o próximo Node (nó) da lista ligada
-	// Node(): construtor vazio
+
 	public Node() {
 		this(null, null);
 	}
-	// Node(T dado, Node<T> prox): construtor com parâmetros
+	
 	public Node(T dado, Node<T> prox) {
 		this.dado = dado;
 		this.prox = prox;
 	}
-    // getProx(): obtém o ponteiro para o próximo Node (nó) da lista ligada
 	public Node<T> getProx() { return prox; };
-	// getDado(): obtém o dado armazenado no Node (nó)
 	public T getDado(){ return dado; };
-	// setProx(Node<T> prox): atribui o endereço do próximo Node (nó) da lista ligada
 	public void setProx(Node<T> prox) { this.prox = prox; };
-	// setDado(T dado): atribui o dado a ser armazenado no Node
 	public void setDado(T dado) { this.dado = dado;	};	
+	
+	@Override
+    public String toString() {
+        return "Node{" +
+               "dado=" + dado +
+               ", prox=" + (prox != null ? "Node@" + Integer.toHexString(System.identityHashCode(prox)) : "null") +
+               '}';
+    }
 }
