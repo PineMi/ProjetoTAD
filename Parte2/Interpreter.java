@@ -96,7 +96,6 @@ public class Interpreter {
     
     
     public void mov(String arg1, String arg2) throws IllegalArgumentException {
-        System.out.println("Função MOV realizada entre argumento " + arg1 + " e " + arg2);
         char x = arg1.charAt(0);
         char y = arg2.charAt(0);
         
@@ -111,7 +110,6 @@ public class Interpreter {
     }
 
     public void inc(String arg1) {
-        System.out.println("Função INC realizada para o argumento " + arg1);
         Character x = arg1.charAt(0);
         if (Character.isDigit(x) || arg1.length() > 1) {
             throw new IllegalArgumentException("O Primeiro argumento deve ser um registrador");
@@ -121,7 +119,6 @@ public class Interpreter {
     }
 
     public void dec(String arg1) {
-        System.out.println("Função DEC realizada para o argumento " + arg1);
         Character x = arg1.charAt(0);
         if (Character.isDigit(x) || arg1.length() > 1) {
             throw new IllegalArgumentException("O Primeiro argumento deve ser um registrador");
@@ -131,7 +128,6 @@ public class Interpreter {
     }
 
     public void add(String arg1, String arg2) {
-        System.out.println("Função ADD realizada entre argumento " + arg1 + " e " + arg2);
         Character x = arg1.charAt(0);
         Character y = arg2.charAt(0);
         if (Character.isDigit(x) || arg1.length() > 1) {
@@ -146,7 +142,6 @@ public class Interpreter {
     }
 
     public void sub(String arg1, String arg2) {
-        System.out.println("Função SUB realizada entre argumento " + arg1 + " e " + arg2);
         Character x = arg1.charAt(0);
         Character y = arg2.charAt(0);
         if (Character.isDigit(x) || arg1.length() > 1) {
@@ -161,7 +156,6 @@ public class Interpreter {
     }
 
     public void mul(String arg1, String arg2) {
-        System.out.println("Função MUL realizada entre argumento " + arg1 + " e " + arg2);
         Character x = arg1.charAt(0);
         Character y = arg2.charAt(0);
         if (Character.isDigit(x) || arg1.length() > 1) {
@@ -176,7 +170,6 @@ public class Interpreter {
     }
 
     public void div(String arg1, String arg2) {
-        System.out.println("Função DIV realizada entre argumento " + arg1 + " e " + arg2);
         Character x = arg1.charAt(0);
         Character y = arg2.charAt(0);
         if (Character.getNumericValue(y) == 0) {

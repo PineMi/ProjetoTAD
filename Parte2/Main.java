@@ -14,9 +14,8 @@ public class Main {
 	private static Scanner scanner = new Scanner(System.in);
 	private static ListaEncadeada<String> listaAssembly = new ListaEncadeada<>();
 	public static void main(String[] args) {
-		
-		// Bugs: Pode inserir linhas negativas ainda
-		
+
+
 		// REPL Loop
 		while (true) {
 			System.out.print("> ");
@@ -76,7 +75,6 @@ public class Main {
             currentFile = fileName;
             unsavedChanges = false;
             System.out.println("Arquivo carregado com sucesso: " + fileName);
-            System.out.println(listaAssembly);
             
         } catch (IOException e) {
             System.out.println("Erro ao carregar o arquivo: " + e.getMessage());
@@ -133,6 +131,11 @@ public class Main {
         }
         try {
             int lineNumber = Integer.parseInt(insParts[0]);
+            if (lineNumber < 0){
+                System.out.println("Comando Inválido. A linha não pode ser negativa.");
+                return;
+            }
+            
             String instruction = insParts[1];
             System.out.println("Comando INS chamado para a linha " + lineNumber + " com a instrução: " + instruction);
             
